@@ -1,7 +1,6 @@
 # Sistema de agentes para chatbot de múltiples CVs
 
 
-# 📄 Asistente Profesional de Análisis de CVs
 
 Este proyecto implementa un **asistente inteligente** que responde preguntas sobre diferentes CVs (Julio, Jose, Carlos), utilizando:
 
@@ -10,6 +9,23 @@ Este proyecto implementa un **asistente inteligente** que responde preguntas sob
 - **Pinecone** como vector store para recuperación de contexto (RAG).
 - **OpenAI API** (vía GitHub Token) como motor de chat.
 - **Embeddings de HuggingFace** para procesar los documentos PDF de los CVs.
+
+---
+
+## 🛠 Arquitectura General del Proyecto
+
+A continuación se muestra un esquema general de la arquitectura de agentes utilizada:
+
+![Arquitectura del proyecto](nlp2_tp2.png)
+
+El flujo se organiza de la siguiente manera:
+
+- **Decisor**: Analiza la pregunta del usuario y determina a qué CV (o CVs) corresponde.
+- **Agentes individuales**: Analizan preguntas específicas para Julio, Jose o Carlos basándose en su propio CV.
+- **Mixer**: Si la pregunta involucra más de un CV, este agente combina los contextos de todos los CVs relevantes.
+- **Bases vectoriales en Pinecone**: Cada CV tiene su propio índice de vectores, además de un índice combinado para el Mixer.
+
+Todo el sistema funciona utilizando recuperación de información (RAG) + razonamiento asistido, sobre una interfaz amigable desarrollada en **Streamlit**.
 
 ---
 
@@ -103,5 +119,6 @@ Podés encontrar videos grabados mostrando el funcionamiento en la carpeta:
 - Si el índice de Pinecone para un CV no existe o está vacío, se carga automáticamente desde los PDFs en `cv/`.
 - El agente **Mixer** combina los 3 CVs cuando una pregunta involucra múltiples personas.
 - Todo el proyecto está preparado para ser escalable, permitiendo agregar nuevos CVs, agentes y fuentes de datos fácilmente.
+- Para considerar un CV particular, se debe especificar el nombre del postulante. Si se especifican dos o más nombres, el sistema lee por defecto todos los CVs.
 
 ---
